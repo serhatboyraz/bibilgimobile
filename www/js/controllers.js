@@ -23,7 +23,10 @@ biBilgi.controller('RouterController', function ($scope, $state, LoadingService,
 });
 biBilgi.controller('SetupController', function ($scope, ApiService, $ionicNavBarDelegate, $state) {
     $ionicNavBarDelegate.showBackButton(false);
-    $scope.sendfreq = 60;
+    $scope.ViewData = {
+        sendfreq: 60,
+        phoneNumber: ''
+    };
     ApiService.Send('Device', 'getCategoryList', {
         deviceId: localStorage.getItem('deviceId')
     }, function (e) {
@@ -45,9 +48,14 @@ biBilgi.controller('SetupController', function ($scope, ApiService, $ionicNavBar
         }
         ApiService.Send('Device', 'edit', {
             deviceId: localStorage.getItem('deviceId'),
-            sendfreq: $scope.sendfreq
+            sendfreq: $scope.ViewData.sendfreq,
+            manufacturer: ionic.Platform.device().manufacturer,
+            model: ionic.Platform.device().model,
+            serial: ionic.Platform.device().serial,
+            version: ionic.Platform.device().version,
+            phone: $scope.ViewData.phoneNumber
         }, function (e) {
-
+            console.log(e);
         });
         ApiService.Send('Device', 'setCategories', {
             deviceId: localStorage.getItem('deviceId'),
@@ -60,7 +68,7 @@ biBilgi.controller('SetupController', function ($scope, ApiService, $ionicNavBar
         });
     };
 });
-biBilgi.controller('NowInfoController', function ($scope, ApiService) {
+biBilgi.controller('NowInfoController', function ($scope, ApiService, $state) {
     $scope.Info = {
         title: '',
         content: '',
@@ -75,7 +83,7 @@ biBilgi.controller('NowInfoController', function ($scope, ApiService) {
         $scope.Info.content = nowInfoData.info.content;
         $scope.Info.id = nowInfoData.info.id;
         $scope.Info.username = nowInfoData.crusr.name;
-        $scope.Info.usermail= nowInfoData.crusr.mail;
+        $scope.Info.usermail = nowInfoData.crusr.mail;
         if (nowInfoData.crusr.avatar !== null)
             $scope.Info.userimage = nowInfoData.crusr.avatar;
     };
@@ -87,16 +95,18 @@ biBilgi.controller('NowInfoController', function ($scope, ApiService) {
         if (e.RESULT) {
             if (localStorage.getItem('nowInfoId') === e.DATA.info.id) {
             } else {
-
                 localStorage.setItem('nowInfoId', e.DATA.info.id);
                 localStorage.setItem('nowInfo', JSON.stringify(e.DATA));
                 localStorage.setItem('nowInfoSet', 'X');
                 setInfo(e.DATA);
             }
+        } else {
+            if (e.DATA === '0x0002') {
+                localStorage.clear();
+                $state.go('error');
+            }
         }
     });
-
-
 });
 biBilgi.controller('FavoritesController', function ($scope) {
     $scope.Favorites = [{title: 'test', content: 'icerik', id: 1}]

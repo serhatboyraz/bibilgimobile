@@ -7,7 +7,11 @@
         </ion-list>
         <h3>Kaç dakikada bir bildirim gelsin?</h3>
         <label class="item item-input">
-            <input type="text" ng-model="sendfreq">
+            <input type="text" ng-model="ViewData.sendfreq">
+        </label>
+        <h3>Telefon numaraniz?</h3>
+        <label class="item item-input">
+            <input type="text" ng-model="ViewData.phoneNumber">
         </label>
         <button class="button button-block button-positive" ng-click="Save()">
             Kaydet
