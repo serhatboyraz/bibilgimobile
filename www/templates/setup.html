@@ -1,0 +1,16 @@
+<ion-view view-title="Kurulum">
+    <ion-content class="padding">
+        <h3>Hangi kategorilerde veri almak istediğiniz seçin.</h3>
+        <ion-list>
+            <ion-checkbox ng-repeat="category in  categoryList" ng-model="category.selected">{{category.title}}
+            </ion-checkbox>
+        </ion-list>
+        <h3>Kaç dakikada bir bildirim gelsin?</h3>
+        <label class="item item-input">
+            <input type="text" ng-model="sendfreq">
+        </label>
+        <button class="button button-block button-positive" ng-click="Save()">
+            Kaydet
+        </button>
+    </ion-content>
+</ion-view>
