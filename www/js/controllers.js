@@ -55,7 +55,7 @@ biBilgi.controller('SetupController', function ($scope, ApiService, $ionicNavBar
             version: ionic.Platform.device().version,
             phone: $scope.ViewData.phoneNumber
         }, function (e) {
-            console.log(e);
+
         });
         ApiService.Send('Device', 'setCategories', {
             deviceId: localStorage.getItem('deviceId'),
@@ -75,17 +75,69 @@ biBilgi.controller('NowInfoController', function ($scope, ApiService, $state) {
         username: '',
         usermail: '',
         userimage: 'img/no-image.png',
-        id: 0
+        image: '',
+        id: 0,
+        isSetFav: false,
+        categories: []
+    };
+
+    var CheckFav = function () {
+        DATABASE.transaction(function (transaction) {
+            transaction.executeSql('SELECT count(*) AS CheckFav FROM infos WHERE id=?', [$scope.Info.id], function (transaction, data) {
+                if (data.rows !== undefined && data.rows.length > 0) {
+                    if (parseInt(data.rows.item(0)['CheckFav']) > 0) {
+                        $scope.Info.isSetFav = true;
+                    }
+                }
+            });
+        });
+    };
+    $scope.AddFav = function () {
+        if (ApiService.RequestActive)
+            return;
+        if ($scope.Info.isSetFav) {
+            ApiService.Send('Device', 'setFav', {
+                deviceId: localStorage.getItem('deviceId'),
+                infoid: $scope.Info.id,
+                type: ''
+            }, function (e) {
+                $scope.Info.isSetFav = false;
+                DATABASE.transaction(function (transaction) {
+                    transaction.executeSql('DELETE FROM infos WHERE id=?', [$scope.Info.id]);
+                });
+            });
+
+        } else {
+            ApiService.Send('Device', 'setFav', {
+                deviceId: localStorage.getItem('deviceId'),
+                infoid: $scope.Info.id,
+                type: 'X'
+            }, function (e) {
+                $scope.Info.isSetFav = true;
+                DATABASE.transaction(function (transaction) {
+                    transaction.executeSql('INSERT INTO infos (id,title,content,image,username,usermail,userimage,categories) VALUES (?,?,?,?,?,?,?,?) ',
+                        [$scope.Info.id, $scope.Info.title, $scope.Info.content, $scope.Info.image,
+                            $scope.Info.username, $scope.Info.usermail, $scope.Info.userimage, JSON.stringify($scope.Info.categories)]
+                    );
+                });
+            });
+        }
     };
     var setInfo = function (nowInfoData) {
-        console.log(nowInfoData);
         $scope.Info.title = nowInfoData.info.title;
         $scope.Info.content = nowInfoData.info.content;
         $scope.Info.id = nowInfoData.info.id;
         $scope.Info.username = nowInfoData.crusr.name;
         $scope.Info.usermail = nowInfoData.crusr.mail;
+        $scope.Info.image = nowInfoData.info.image;
         if (nowInfoData.crusr.avatar !== null)
             $scope.Info.userimage = nowInfoData.crusr.avatar;
+
+        nowInfoData.categories.forEach(function (category) {
+            $scope.Info.categories.push(category);
+        });
+
+        CheckFav();
     };
     if (localStorage.getItem('nowInfoSet') === 'X') {
         setInfo(JSON.parse(localStorage.getItem('nowInfo')));
@@ -108,11 +160,77 @@ biBilgi.controller('NowInfoController', function ($scope, ApiService, $state) {
         }
     });
 });
-biBilgi.controller('FavoritesController', function ($scope) {
-    $scope.Favorites = [{title: 'test', content: 'icerik', id: 1}]
+biBilgi.controller('FavoritesController', function ($scope, ApiService) {
+    $scope.Favorites = [];
+    DATABASE.transaction(function (transaction) {
+        transaction.executeSql('SELECT id,title,content FROM infos ORDER BY id DESC', [], function (transaction, data) {
+            if (data.rows !== undefined && data.rows.length > 0) {
+                for (var i = 0; i < data.rows.length; i++) {
+                    $scope.Favorites.push(data.rows.item(i));
+                }
+            }
+        });
+    });
+
+    $scope.Remove = function (id) {
+
+        ApiService.Send('Device', 'setFav', {
+            deviceId: localStorage.getItem('deviceId'),
+            infoid: id,
+            type: ''
+        }, function (e) {
+
+        });
+
+        DATABASE.transaction(function (transaction) {
+            transaction.executeSql('DELETE FROM infos WHERE id=?', [id]);
+        });
+
+        for (var i = 0; i < $scope.Favorites.length; i++) {
+            if ($scope.Favorites[i].id === id) {
+                $scope.Favorites.splice(i, 1);
+                break;
+            }
+        }
+    };
+
+
 });
-biBilgi.controller('FavoritesDetailsController', function ($scope) {
-    $scope.Favorite = {title: 'test', content: 'icerik', id: 1}
+biBilgi.controller('FavoritesDetailsController', function ($scope, $state, $stateParams, $ionicNavBarDelegate) {
+    $ionicNavBarDelegate.showBackButton(true);
+    $scope.Info = {
+        title: '',
+        content: '',
+        username: '',
+        usermail: '',
+        userimage: 'img/no-image.png',
+        image: '',
+        id: 0,
+        isSetFav: false,
+        categories: []
+    };
+
+    DATABASE.transaction(function (transaction) {
+        transaction.executeSql('SELECT * FROM infos WHERE id=?', [$stateParams.infoId], function (transaction, data) {
+            if (data.rows !== undefined && data.rows.length > 0) {
+
+                $scope.Info.title = data.rows.item(0)['title'];
+                $scope.Info.content = data.rows.item(0)['content'];
+                $scope.Info.id = data.rows.item(0)['id'];
+                $scope.Info.username = data.rows.item(0)['username'];
+                $scope.Info.usermail = data.rows.item(0)['usermail'];
+                $scope.Info.image = data.rows.item(0)['image'];
+                $scope.Info.userimage = data.rows.item(0)['userimage'];
+
+                JSON.parse(data.rows.item(0)['categories']).forEach(function (category) {
+                    $scope.Info.categories.push(category);
+                });
+
+            } else {
+                $state.go('tab.favorites')
+            }
+        });
+    });
 });
 biBilgi.controller('SettingsController', function ($scope) {
     $scope.Settings = {

@@ -1,12 +1,18 @@
 <ion-view view-title="Güncel Bilgi">
     <ion-content class="padding">
 
-        <h2>{{Info.title}}</h2>
+        <h2>{{Info.title}} <i class="icon" ng-class="Info.isSetFav ? 'ion-ios-star':'ion-ios-star-outline'"
+                              ng-click="AddFav()"></i></h2>
         {{Info.content}} <br>
         <br>
         <div>
             <div class="row">
-                <div class="col col-offset-66">
+                <div class="col col-66">
+                    <div>
+                        <span ng-repeat="category in Info.categories">#{{ category.title}}</span>
+                    </div>
+                </div>
+                <div class="col">
                     <img ng-src="{{Info.userimage}}" width="100%">
                     <div class="text-center">{{Info.username}}<br>{{Info.usermail}}</div>
                 </div>

@@ -1,8 +1,23 @@
-<ion-view view-title="{{Favorite.title}}">
+<ion-view>
+
+    <ion-nav-title>{{Info.title}}</ion-nav-title>
     <ion-content class="padding">
-        <img ng-src="{{chat.face}}" style="width: 64px; height: 64px">
-        <p>
-            {{Favorite.content}}
-        </p>
+        <h2>{{Info.title}}</h2>
+        {{Info.content}} <br>
+        <br>
+        <div>
+            <div class="row">
+                <div class="col col-66">
+                    <div>
+                        <span ng-repeat="category in Info.categories">#{{ category.title}}</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <img ng-src="{{Info.userimage}}" width="100%">
+                    <div class="text-center">{{Info.username}}<br>{{Info.usermail}}</div>
+                </div>
+            </div>
+        </div>
+
     </ion-content>
 </ion-view>

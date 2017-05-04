@@ -9,6 +9,14 @@ biBilgi.run(function ($ionicPlatform, ApiService, $rootScope) {
         if (window.StatusBar) {
             StatusBar.styleDefault();
         }
+        DATABASE = window.openDatabase("bibilgi.db", '1', 'bibilgi', 1024 * 1024);
+        DATABASE.transaction(function (transaction) {
+            transaction.executeSql('CREATE TABLE IF NOT EXISTS infos (id,title,content,image,username,usermail,userimage,categories)');
+        }, function (error) {
+
+        }, function () {
+
+        });
         if (window.cordova) {
             var push = PushNotification.init({
                 android: {
@@ -48,7 +56,10 @@ biBilgi.run(function ($ionicPlatform, ApiService, $rootScope) {
             });
         } else {
             if (localStorage.getItem('setup') != 'X') {
-                ApiService.Send('Device', 'save', {deviceId: 'WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB', sendfreq: 60}, function (e) {
+                ApiService.Send('Device', 'save', {
+                    deviceId: 'WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB',
+                    sendfreq: 60
+                }, function (e) {
                     if (e.RESULT || e.DATA == "0x0004") {
                         localStorage.setItem('deviceId', 'WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB');
                         localStorage.setItem('setup-ready', 'X');
@@ -64,7 +75,17 @@ biBilgi.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('router', {
             url: '/router',
-            controller: 'RouterController'
+            cache: false,
+            controller: 'RouterController',
+            resolve: {
+                cordova: function ($q) {
+                    var deferred = $q.defer();
+                    ionic.Platform.ready(function () {
+                        deferred.resolve();
+                    });
+                    return deferred.promise;
+                }
+            }
         })
         .state('setup', {
             url: '/setup',
@@ -89,6 +110,7 @@ biBilgi.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('tab.now', {
             url: '/now',
+            cache: false,
             views: {
                 'tab-now': {
                     templateUrl: 'templates/tab-now.html',
@@ -98,6 +120,7 @@ biBilgi.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('tab.favorites', {
             url: '/favorites',
+            cache: false,
             views: {
                 'tab-favorites': {
                     templateUrl: 'templates/tab-favorites.html',

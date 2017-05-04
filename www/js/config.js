@@ -1,4 +1,5 @@
 var API_URL = 'http://bibilgi.kodofisi.com';
+var DATABASE = null;
 
 function trim(s, mask) {
     while (~mask.indexOf(s[0])) {
