@@ -1,0 +1,29 @@
+.text-main{
+  background: url("../img/bg.jpg");
+}
+.text-title{
+  color: #FFFF00;
+  margin:25px 0px
+}
+.text-content{
+  color: #fff;
+  font-size:14px;
+  text-align: center;
+  font-weight:400;
+  line-height: 24px;
+  padding:0px 30px;
+  text-shadow: 0px 2px 5px #000;
+  margin-bottom: 10px;
+}
+
+.text-user{
+  bottom:0;
+  color: #FFF;
+}
+.text-category{
+  margin-bottom: 10px;
+  color: #FFFF00;
+}
+.fav-icon{
+  margin: 0px 10px;
+}

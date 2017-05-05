@@ -1,11 +1,11 @@
 <ion-view view-title="Kurulum">
     <ion-content class="padding">
-        <h3>Hangi kategorilerde veri almak istediğiniz seçin.</h3>
+        <h6>Hangi kategorilerde veri almak istediğiniz seçin.</h6>
         <ion-list>
             <ion-checkbox ng-repeat="category in  categoryList" ng-model="category.selected">{{category.title}}
             </ion-checkbox>
         </ion-list>
-        <h3>Kaç saatte bir bildirim gelsin?</h3>
+        <h6>Kaç saatte bir bildirim gelsin?</h6>
         <label class="item item-input">
             <input type="number" max="100" min="1" ng-model="ViewData.sendfreq">
         </label>
