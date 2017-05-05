@@ -12,7 +12,7 @@ biBilgi.controller('RouterController', function ($scope, $state, LoadingService,
                 LoadingService.Hide();
                 $state.go('error')
             }
-        }, 5000);
+        }, 50000);
 
         LoadingService.Show();
         $scope.$on('deviceIdReceived', function () {
