@@ -5,13 +5,9 @@
             <ion-checkbox ng-repeat="category in  categoryList" ng-model="category.selected">{{category.title}}
             </ion-checkbox>
         </ion-list>
-        <h3>Kaç dakikada bir bildirim gelsin?</h3>
+        <h3>Kaç saatte bir bildirim gelsin?</h3>
         <label class="item item-input">
-            <input type="text" ng-model="ViewData.sendfreq">
-        </label>
-        <h3>Telefon numaraniz?</h3>
-        <label class="item item-input">
-            <input type="text" ng-model="ViewData.phoneNumber">
+            <input type="number" max="100" min="1" ng-model="ViewData.sendfreq">
         </label>
         <button class="button button-block button-positive" ng-click="Save()">
             Kaydet

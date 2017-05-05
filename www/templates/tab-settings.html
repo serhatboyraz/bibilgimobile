@@ -4,10 +4,17 @@
             <ion-toggle ng-model="Settings.EnablePush">
                 Bildirimler Aktif Mi?
             </ion-toggle>
-            <!--<ion-item>-->
-                <!--<ion-label color="primary" stacked>Bildirimler kaç dakikada bir gelsin?</ion-label>-->
-                <!--<ion-input type="number" placeholder="15" ng-model="Settings.PushFrequency"></ion-input>-->
-            <!--</ion-item>-->
+            <label class="item item-input item-stacked-label" ng-show="Settings.EnablePush">
+                <span class="input-label">Bildirimler kac saatte bir gelsin</span>
+                <input type="number" ng-model="Settings.PushFrequency">
+            </label>
+            <ion-list>
+                <ion-checkbox ng-repeat="category in  categoryList" ng-model="category.selected">{{category.title}}
+                </ion-checkbox>
+            </ion-list>
+            <button class="button button-block button-positive" ng-click="Save()">
+                Kaydet
+            </button>
         </ion-list>
     </ion-content>
 </ion-view>

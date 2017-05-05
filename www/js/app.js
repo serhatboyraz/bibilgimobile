@@ -1,6 +1,6 @@
 var biBilgi = angular.module('biBilgi', ['ionic']);
 
-biBilgi.run(function ($ionicPlatform, ApiService, $rootScope) {
+biBilgi.run(function ($ionicPlatform, ApiService, $rootScope, $state) {
     $ionicPlatform.ready(function () {
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -52,15 +52,15 @@ biBilgi.run(function ($ionicPlatform, ApiService, $rootScope) {
                 }
             });
             push.on('notification', function (data) {
-                console.log(data);
+                $state.go('tab.now')
             });
         } else {
-            if (localStorage.getItem('setup') != 'X') {
+            if (localStorage.getItem('setup') !== 'X') {
                 ApiService.Send('Device', 'save', {
                     deviceId: 'WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB',
                     sendfreq: 60
                 }, function (e) {
-                    if (e.RESULT || e.DATA == "0x0004") {
+                    if (e.RESULT || e.DATA === "0x0004") {
                         localStorage.setItem('deviceId', 'WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB');
                         localStorage.setItem('setup-ready', 'X');
                         $rootScope.$broadcast('deviceIdReceived');
