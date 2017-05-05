@@ -47,7 +47,7 @@ biBilgi.controller('SetupController', function ($scope, ApiService, $ionicNavBar
                 localStorage.setItem('settings', JSON.stringify(
                     {
                         EnablePush: true,
-                        PushFrequency: $socpe.ViewData.sendfreq
+                        PushFrequency: $scope.ViewData.sendfreq
                     }));
                 localStorage.setItem('setup', 'X');
                 $state.go('tab.now');
