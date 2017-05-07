@@ -8,10 +8,21 @@
                 <span class="input-label">Bildirimler kac saatte bir gelsin</span>
                 <input type="number" ng-model="Settings.PushFrequency">
             </label>
-            <ion-list>
-                <ion-checkbox ng-repeat="category in  categoryList" ng-model="category.selected">{{category.title}}
-                </ion-checkbox>
-            </ion-list>
+            <ion-item>
+                <h6>Hangi kategorilerde veri almak istediğiniz seçin.</h6>
+                <div class="col col-33 categoryBox"
+                     ng-class="AllSelect?'categorySelected':'category'"
+                     ng-click="SelectAllToggle()">
+                    <div>{{AllSelect ? 'Hiçbirini Seçme':'Tümünü Seç'}}</div>
+                </div>
+                <div class="col col-33 categoryBox" ng-repeat="category in  categoryList"
+                     ng-model="category.selected"
+                     ng-class="category.selected?'categorySelected':'category'"
+                     ng-click="category.selected ? category.selected= false:category.selected=true">
+                    <img ng-src="{{category.avatar}}" class="categoryBoxImage"> <br>
+                    {{category.title}}
+                </div>
+            </ion-item>
             <button class="button button-block button-positive" ng-click="Save()">
                 Kaydet
             </button>

@@ -29,30 +29,33 @@ biBilgi.controller('NowInfoController', function ($scope, ApiService, $state) {
         if (ApiService.RequestActive)
             return;
         if ($scope.Info.isSetFav) {
+            $scope.Info.isSetFav = false;
+            DATABASE.transaction(function (transaction) {
+                transaction.executeSql('DELETE FROM infos WHERE id=?', [$scope.Info.id]);
+            });
+
             ApiService.Send('Device', 'setFav', {
                 deviceId: localStorage.getItem('deviceId'),
                 infoid: $scope.Info.id,
                 type: ''
             }, function (e) {
-                $scope.Info.isSetFav = false;
-                DATABASE.transaction(function (transaction) {
-                    transaction.executeSql('DELETE FROM infos WHERE id=?', [$scope.Info.id]);
-                });
+
             });
 
         } else {
+            $scope.Info.isSetFav = true;
+            DATABASE.transaction(function (transaction) {
+                transaction.executeSql('INSERT INTO infos (id,title,content,image,username,usermail,userimage,categories) VALUES (?,?,?,?,?,?,?,?) ',
+                    [$scope.Info.id, $scope.Info.title, $scope.Info.content, $scope.Info.image,
+                        $scope.Info.username, $scope.Info.usermail, $scope.Info.userimage, JSON.stringify($scope.Info.categories)]
+                );
+            });
+
             ApiService.Send('Device', 'setFav', {
                 deviceId: localStorage.getItem('deviceId'),
                 infoid: $scope.Info.id,
                 type: 'X'
             }, function (e) {
-                $scope.Info.isSetFav = true;
-                DATABASE.transaction(function (transaction) {
-                    transaction.executeSql('INSERT INTO infos (id,title,content,image,username,usermail,userimage,categories) VALUES (?,?,?,?,?,?,?,?) ',
-                        [$scope.Info.id, $scope.Info.title, $scope.Info.content, $scope.Info.image,
-                            $scope.Info.username, $scope.Info.usermail, $scope.Info.userimage, JSON.stringify($scope.Info.categories)]
-                    );
-                });
             });
         }
     };

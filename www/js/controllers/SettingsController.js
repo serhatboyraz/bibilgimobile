@@ -6,6 +6,7 @@ biBilgi.controller('SettingsController', function ($scope, ApiService, $ionicPop
         EnablePush: true,
         PushFrequency: 6
     };
+    $scope.AllSelect = false;
 
     if (localStorage.getItem('settings') !== null) {
         var settings = JSON.parse(localStorage.getItem('settings'));
@@ -13,6 +14,20 @@ biBilgi.controller('SettingsController', function ($scope, ApiService, $ionicPop
         $scope.Settings.PushFrequency = settings.PushFrequency;
         $scope.Settings.EnablePush = settings.EnablePush;
     }
+    $scope.SelectAllToggle = function () {
+        if ($scope.AllSelect) {
+            $scope.categoryList.forEach(function (e) {
+                e.selected = false;
+            });
+            $scope.AllSelect = false;
+        } else {
+            $scope.AllSelect = true;
+            $scope.categoryList.forEach(function (e) {
+                e.selected = true;
+            });
+        }
+
+    };
 
     $scope.Save = function () {
         var categoryIds = '';

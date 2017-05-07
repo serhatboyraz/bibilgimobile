@@ -1,16 +1,28 @@
 <ion-view view-title="Kurulum">
     <ion-content class="padding">
-        <h6>Hangi kategorilerde veri almak istediğiniz seçin.</h6>
         <ion-list>
-            <ion-checkwbox ng-repeat="category in  categoryList" ng-model="category.selected">{{category.title}}
-            </ion-checkwbox>
+            <ion-item>
+                <h6>Hangi kategorilerde veri almak istediğiniz seçin.</h6>
+                <div class="col col-33 categoryBox"
+                     ng-class="AllSelect?'categorySelected':'category'"
+                     ng-click="SelectAllToggle()">
+                    <div>{{AllSelect ? 'Hiçbirini Seçme':'Tümünü Seç'}}</div>
+                </div>
+                <div class="col col-33 categoryBox" ng-repeat="category in  categoryList"
+                     ng-model="category.selected"
+                     ng-class="category.selected?'categorySelected':'category'"
+                     ng-click="category.selected ? category.selected= false:category.selected=true">
+                    <img ng-src="{{category.avatar}}" class="categoryBoxImage"> <br>
+                    {{category.title}}
+                </div>
+            </ion-item>
+            <h6>Kaç saatte bir bildirim gelsin?</h6>
+            <label class="item item-input">
+                <input type="number" max="100" min="1" ng-model="ViewData.sendfreq">
+            </label>
+            <button class="button button-block button-positive" ng-click="Save()">
+                Kaydet
+            </button>
         </ion-list>
-        <h6>Kaç saatte bir bildirim gelsin?</h6>
-        <label class="item item-input">
-            <input type="number" max="100" min="1" ng-model="ViewData.sendfreq">
-        </label>
-        <button class="button button-block button-positive" ng-click="Save()">
-            Kaydet
-        </button>
     </ion-content>
 </ion-view>

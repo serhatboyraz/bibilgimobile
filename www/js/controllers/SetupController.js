@@ -1,12 +1,13 @@
 /**
  * Created by Serhat Boyraz on 5.05.2017.
  */
-biBilgi.controller('SetupController', function ($scope, ApiService, $ionicNavBarDelegate, $state) {
+biBilgi.controller('SetupController', function ($scope, ApiService, $ionicNavBarDelegate, $state, $ionicPopup) {
     $ionicNavBarDelegate.showBackButton(false);
     $scope.ViewData = {
         sendfreq: 6,
         phoneNumber: ''
     };
+    $scope.AllSelect = false;
     ApiService.Send('Device', 'getCategoryList', {
         deviceId: localStorage.getItem('deviceId')
     }, function (e) {
@@ -15,6 +16,20 @@ biBilgi.controller('SetupController', function ($scope, ApiService, $ionicNavBar
         }
     });
 
+    $scope.SelectAllToggle = function () {
+        if ($scope.AllSelect) {
+            $scope.categoryList.forEach(function (e) {
+                e.selected = false;
+            });
+            $scope.AllSelect = false;
+        } else {
+            $scope.AllSelect = true;
+            $scope.categoryList.forEach(function (e) {
+                e.selected = true;
+            });
+        }
+
+    };
     $scope.Save = function () {
         var categoryIds = '';
         $scope.categoryList.forEach(function (e) {
@@ -24,7 +39,10 @@ biBilgi.controller('SetupController', function ($scope, ApiService, $ionicNavBar
         });
         categoryIds = trim(categoryIds, ',');
         if (categoryIds.length === 0) {
-            alert('en az bir kategori sec');
+            $ionicPopup.alert({
+                title: 'Hata',
+                template: 'En az bir kategori seçin.'
+            });
             return;
         }
         ApiService.Send('Device', 'edit', {
