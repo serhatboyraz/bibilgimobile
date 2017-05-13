@@ -1,7 +1,8 @@
 /**
  * Created by Serhat Boyraz on 5.05.2017.
  */
-biBilgi.controller('NowInfoController', function ($scope, ApiService, $state) {
+biBilgi.controller('NowInfoController', function ($scope, ApiService, $state, $ionicViewService) {
+    $ionicViewService.clearHistory()
     $scope.Info = {
         title: '',
         content: '',

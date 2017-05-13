@@ -1,25 +1,28 @@
 <ion-view view-title="Güncel Bilgi">
     <ion-content class="padding text-main">
 
-        <h4 class="text-title text-center">{{Info.title}}
-          <span class="fav-icon"><i class="icon" ng-class="Info.isSetFav ? 'ion-ios-star':'ion-ios-star-outline'" ng-click="AddFav()"></i></span>
-        </h4>
+        <!--<h4 class="text-title text-center">{{Info.title}}-->
+        <!--<span class="fav-icon"><i class="icon" ng-class="Info.isSetFav ? 'ion-ios-star':'ion-ios-star-outline'" ng-click="AddFav()"></i></span>-->
+        <!--</h4>-->
 
-        <div class="text-content">
-          {{Info.content}}
-        </div>
+        <h4 class="text-content">
+            {{Info.content}}
+        </h4>
 
         <div>
 
-                <div class="text-category text-center">
-                    <div>
-                        <span ng-repeat="category in Info.categories">#{{ category.title}}</span>
-                    </div>
+            <div class="text-category text-center">
+                <div>
+                    <span class="text-category-header">İlgili Kategoriler</span> : <span
+                        ng-repeat="category in Info.categories">{{ category.title}}  </span>
                 </div>
-                <div class="text-user text-center">
-                    <img width="100px" ng-src="{{Info.userimage}}" width="100%">
-                    <div class="text-center">{{Info.username}}<br>{{Info.usermail}}</div>
+            </div>
+            <div class="text-user">
+                <div class="row">
+                    <div class="col col-25"><img width="100px" ng-src="{{Info.userimage}}" width="100%"></div>
+                    <div class="col col-75 text-left">{{Info.username}}<br>{{Info.usermail}}</div>
                 </div>
+            </div>
         </div>
 
 
