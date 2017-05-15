@@ -16,7 +16,8 @@
     text-shadow: 0px 2px 5px #000;
     margin-bottom: 10px;
 }
-.text-category-header{
+
+.text-category-header {
     color: #fff;
     font-weight: 400;
     text-shadow: 0px 2px 5px #000;
@@ -33,21 +34,24 @@
 }
 
 .fav-icon {
-    margin: 0px 10px;
+    margin: 0 10px;
 }
 
 .categoryBox {
     float: left;
-    height: 100px;
-    border: 3px solid white;
+    border:1px solid #fff;
+
     text-align: center;
-    word-wrap: break-word;
+    border-radius: 4px;
 }
 
 .categorySelected {
-    border: 3px solid #387ef5;
+    background-color: #5ec9f5;
+    color:#fff;
+    border:1px solid #14beff;
 }
 
 .categoryBoxImage {
     width: 60px;
+    border-radius:60px;
 }

@@ -1,7 +1,7 @@
 /**
  * Created by Serhat Boyraz on 5.05.2017.
  */
-biBilgi.controller('SettingsController', function ($scope, ApiService, $ionicPopup) {
+biBilgi.controller('SettingsController', function ($scope, ApiService, $ionicPopup, LoadingService) {
     $scope.Settings = {
         EnablePush: true,
         PushFrequency: 6
@@ -30,6 +30,7 @@ biBilgi.controller('SettingsController', function ($scope, ApiService, $ionicPop
     };
 
     $scope.Save = function () {
+
         var categoryIds = '';
         $scope.categoryList.forEach(function (e) {
             if (e.selected) {
@@ -38,13 +39,14 @@ biBilgi.controller('SettingsController', function ($scope, ApiService, $ionicPop
         });
         categoryIds = trim(categoryIds, ',');
         if (categoryIds.length === 0) {
+
             $ionicPopup.alert({
                 title: 'Hata',
                 template: 'En az bir kategori seçin.'
             });
             return;
         }
-
+        LoadingService.Show();
         ApiService.Send('Device', 'edit', {
             deviceId: localStorage.getItem('deviceId'),
             sendfreq: parseInt($scope.Settings.PushFrequency) * 60,
@@ -71,16 +73,19 @@ biBilgi.controller('SettingsController', function ($scope, ApiService, $ionicPop
                     title: 'Tamamdır',
                     template: 'İşlem tamamlandı.'
                 });
+                LoadingService.Hide();
             }
         });
     };
 
+    LoadingService.Show();
     ApiService.Send('Device', 'getCategoryList', {
         deviceId: localStorage.getItem('deviceId')
     }, function (e) {
         if (e.RESULT) {
             $scope.categoryList = e.DATA;
         }
+        LoadingService.Hide();
     });
 })
 ;
