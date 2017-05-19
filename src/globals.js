@@ -1,0 +1,3 @@
+/**
+ * @providesModule @bibilgi/globals
+ */
