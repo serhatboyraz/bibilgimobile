@@ -7,12 +7,15 @@ import {
 	ScrollView,
 	TouchableOpacity,
 	Alert,
-	ActivityIndicator
+	ActivityIndicator,
+	Platform
 } from 'react-native';
 
 import {
 	Actions
 } from 'react-native-router-flux';
+
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import {
 	WebService
@@ -270,6 +273,7 @@ export default class Setup extends Component {
 						</View>
 					</View>
 				</ScrollView>
+				{Platform.OS === 'ios' ? <KeyboardSpacer/> : null}
 			</View>
 		);
 	}

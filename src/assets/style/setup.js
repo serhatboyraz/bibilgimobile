@@ -69,7 +69,8 @@ module.exports = StyleSheet.create({
 		margin: 10,
 		borderColor: '#ccc',
 		borderRadius: 4,
-		paddingLeft: 10
+		paddingLeft: 10,
+		height: 40
 	},
 	categoryAllSelect: {
 		padding: 5,
