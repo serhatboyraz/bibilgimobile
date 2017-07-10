@@ -5,7 +5,7 @@ import {
 	View,
 	TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons'; // icon kütüphanesi
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const CustomTabBar = React.createClass({
 	tabIcons: [],
