@@ -19,7 +19,11 @@ import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import {
 	WebService
-} from '@bibilgi/providers'
+} from '@bibilgi/providers';
+
+import {
+	NavBar
+} from '@bibilgi/components';
 
 import style from '@bibilgi/style/setup';
 
@@ -67,7 +71,6 @@ export default class Setup extends Component {
 			this.setState({
 				allCheck: true
 			})
-	
 	}
 
 	changeCategory(item) {
@@ -146,6 +149,11 @@ export default class Setup extends Component {
 		return (
 			<View
 				style={style.body}>
+				{
+					!this.props.hideNavBar &&
+					<NavBar
+						title='Kurulum'/>
+				}
 				<ScrollView>
 					<View
 						style={style.option}>

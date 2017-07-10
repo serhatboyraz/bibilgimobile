@@ -3,7 +3,9 @@
  */
 
 import NotificationService from './NotificationService';
+import InfoService from './InfoService';
 
 export {
-	NotificationService
+	NotificationService,
+	InfoService,
 }
