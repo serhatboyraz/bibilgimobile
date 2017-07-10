@@ -34,17 +34,14 @@ export default class BiBilgi extends Component {
 		const scenes = Actions.create(
 			<Scene key="root">
 				<Scene key="Start" component={Start} title="Start" hideNavBar={true}/>
-				<Scene key="Main" component={Main} title="Bi Bilgi" />
-				<Scene key="Setup" component={Setup} title="Kurulum" />
+				<Scene key="Main" component={Main} title="Bi Bilgi" hideNavBar={true}/>
+				<Scene key="Setup" component={Setup} title="Kurulum" hideNavBar={true}/>
 			</Scene>
 		);
 
 		return (
 			<Router
-				scenes={scenes}
-				sceneStyle={{
-					paddingTop: Platform.OS === 'ios' ? 65: 55
-				}}/>
+				scenes={scenes}/>
 		);
 	}
 }
