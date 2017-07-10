@@ -16,10 +16,19 @@ export default class MainTab extends Component {
 	  	super(props);
 	
 	  	this.state = {
+	  		infoId: '1',
 	  		info: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic cum sapiente minus, voluptas in. Illum, vel magnam perferendis quidem ea quas rerum iure architecto eaque, tempore ab, nemo a deserunt.',
-	  		categories: 'Hayvanlar Alemi'
+	  		categories: 'Hayvanlar Alemi',
+	  		isAddedFav: false
 	  	};
 	}
+
+	toggleFav() {
+		this.setState({
+			isAddedFav: !this.state.isAddedFav
+		});
+	}
+
 	render() {
 		return (
 			<Image
@@ -44,12 +53,18 @@ export default class MainTab extends Component {
 					<View
 						style={styles.buttonBar}>
 						<TouchableOpacity
-							style={styles.button}>
+							onPress={this.toggleFav.bind(this)}
+							style={[styles.button, this.state.isAddedFav && {backgroundColor: '#cece35'}]}>
 							<Icon
-								name='ios-star-outline'
+								name={this.state.isAddedFav ? 'ios-star' : 'ios-star-outline'}
 								size={20}
 								color={'#fff'}/>
-							<Text style={styles.favButtonText}>Favorilere Ekle</Text>
+							{
+								this.state.isAddedFav ?
+								<Text style={styles.favButtonText}>Favorilerden Kaldır</Text>
+								:
+								<Text style={styles.favButtonText}>Favorilere Ekle</Text>
+							}
 						</TouchableOpacity>
 
 						<TouchableOpacity
