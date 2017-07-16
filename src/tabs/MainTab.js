@@ -1,127 +1,113 @@
 import React, {Component} from 'react';
 import {
-	StyleSheet,
+	Styleheet,
 	Text,
 	View,
 	TouchableOpacity,
 	Platform,
 	Image,
 	ScrollView,
+	ActivityIndicator,
 } from 'react-native';
 
+import {
+	WebService
+} from '@bibilgi/providers';
+
+import {
+	InfoService
+} from '@bibilgi/services';
+
 import Icon from 'react-native-vector-icons/Ionicons';
+
+import style from '@bibilgi/style/main';
 
 export default class MainTab extends Component {
 	constructor(props) {
 	  	super(props);
 	
 	  	this.state = {
-	  		infoId: '1',
-	  		info: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic cum sapiente minus, voluptas in. Illum, vel magnam perferendis quidem ea quas rerum iure architecto eaque, tempore ab, nemo a deserunt.',
-	  		categories: 'Hayvanlar Alemi',
-	  		isAddedFav: false
+	  		infoId: null,
+	  		info: null,
+	  		categories: null,
+	  		isAddedFav: false,
+	  		loading: true
 	  	};
+	}
+
+	componentWillMount() {
+		var self = this;
+		WebService.getLastInfo().then(res => {
+			self.setState({
+				infoId: res.id,
+				info: res.content,
+				isAddedFav: res.favcount !== "0",
+				loading: false
+			});
+			InfoService.setNowInfo(res);
+		});
 	}
 
 	toggleFav() {
 		this.setState({
 			isAddedFav: !this.state.isAddedFav
+		}, () => {
+			WebService.setFav(this.state.infoId, this.state.isAddedFav);
 		});
 	}
 
 	render() {
 		return (
-			<Image
-				source={require('@bibilgi/images').bgJPG}
-				style={styles.body}>
-				<ScrollView
-					style={styles.container}>
-					<Text
-						style={styles.info}>
-						{this.state.info}
-					</Text>
-
-					<Text
-						style={styles.categories}>
-						{'İlgili Kategoriler: '}
+			this.state.loading ? (
+				<ActivityIndicator
+					animating={true}
+					size={'large'}/>
+			)
+			: (
+				<Image
+					source={require('@bibilgi/images').bgJPG}
+					style={style.body}>
+					<ScrollView
+						style={style.container}>
 						<Text
-							style={styles.category}>
-							{this.state.categories}
+							style={style.info}>
+							{this.state.info || ' '}
 						</Text>
-					</Text>
 
-					<View
-						style={styles.buttonBar}>
-						<TouchableOpacity
-							onPress={this.toggleFav.bind(this)}
-							style={[styles.button, this.state.isAddedFav && {backgroundColor: '#cece35'}]}>
-							<Icon
-								name={this.state.isAddedFav ? 'ios-star' : 'ios-star-outline'}
-								size={20}
-								color={'#fff'}/>
-							{
-								this.state.isAddedFav ?
-								<Text style={styles.favButtonText}>Favorilerden Kaldır</Text>
-								:
-								<Text style={styles.favButtonText}>Favorilere Ekle</Text>
-							}
-						</TouchableOpacity>
+						<Text
+							style={style.categories}>
+							{'İlgili Kategoriler: '}
+							<Text
+								style={style.category}>
+								{this.state.categories || ' '}
+							</Text>
+						</Text>
 
-						<TouchableOpacity
-							style={[styles.button, { backgroundColor: '#fff' }]}>
-							<Text>Paylaş</Text>
-						</TouchableOpacity>
-					</View>
-				</ScrollView>
-			</Image>
+						<View
+							style={style.buttonBar}>
+							<TouchableOpacity
+								onPress={this.toggleFav.bind(this)}
+								style={[style.button, this.state.isAddedFav && {backgroundColor: '#cece35'}]}>
+								<Icon
+									name={this.state.isAddedFav ? 'ios-star' : 'ios-star-outline'}
+									size={20}
+									color={'#fff'}/>
+								{
+									this.state.isAddedFav ?
+									<Text style={style.favButtonText}>Favorilerden Kaldır</Text>
+									:
+									<Text style={style.favButtonText}>Favorilere Ekle</Text>
+								}
+							</TouchableOpacity>
+
+							<TouchableOpacity
+								style={[style.button, { backgroundColor: '#fff' }]}>
+								<Text>Paylaş</Text>
+							</TouchableOpacity>
+						</View>
+					</ScrollView>
+				</Image>
+			)
 		);
 	}
 }
-
-const { height, width } = require('Dimensions').get('window');
-const styles = StyleSheet.create({
-	body: {
-		flex: 1,
-		padding: 20,
-		width: width,
-		height: height
-	},
-	container: {
-		flex: 1,
-		padding: 10,
-		backgroundColor:'transparent',
-	},
-	info: {
-		fontSize: 20,
-		color: '#fff',
-		textAlign: 'center',
-		lineHeight: 25
-	},
-	categories: {
-		color: '#fff',
-		marginTop: 20,
-		fontSize: 16,
-		textAlign: 'center',
-	},
-	category: {
-		marginLeft: 5,
-		color: '#ff0',
-	},
-	button: {
-		flex: 1,
-		padding: 15,
-		backgroundColor: '#3ab248',
-		alignItems: 'center',
-		flexDirection: 'row',
-		justifyContent: 'center'
-	},
-	buttonBar: {
-		flex: 1,
-		flexDirection: 'row',
-		marginTop: 30
-	},
-	favButtonText: {
-		color: '#fff',
-		marginLeft: 5
-	}
-});

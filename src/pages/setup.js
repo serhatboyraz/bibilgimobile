@@ -42,6 +42,7 @@ export default class Setup extends Component {
 	async loadDefault() {
 		var self = this;
 		
+		// tüm kategorileri getiriyor
 		WebService.getCategoryList().then(res => {
 			var group = [];
 			for (var i = 0, j = 0; i < res.length; i++) {
@@ -57,6 +58,9 @@ export default class Setup extends Component {
 		})
 	}
 
+	/*
+	 * Tüm kategorilerin seçili olup olmadığını kontrol eder
+	*/
 	checkControl() {
 		var search = this.state.categories.find(x => {
 			return x.find(y => {
@@ -73,6 +77,9 @@ export default class Setup extends Component {
 			})
 	}
 
+	/*
+	 * Bir kategoriye tıklandığında onu toogle yapar
+	*/
 	changeCategory(item) {
 		var search;
 		var self = this;
@@ -92,6 +99,9 @@ export default class Setup extends Component {
 		});
 	}
 
+	/*
+	 * Tüm kategorileri seçili yapar veya seçiliden çıkarır
+	*/
 	checkAll(type) {
 		var self = this;
 		switch (type) {
@@ -118,6 +128,9 @@ export default class Setup extends Component {
 		})
 	}
 
+	/*
+	 * Kullanıcını ekranda yaptığı tüm bilgileri kaydeder 
+	*/
 	save() {
 		var search = this.state.categories.find(x => {
 			return x.find(y => {
@@ -149,11 +162,8 @@ export default class Setup extends Component {
 		return (
 			<View
 				style={style.body}>
-				{
-					!this.props.hideNavBar &&
-					<NavBar
-						title='Kurulum'/>
-				}
+				<NavBar
+					title='Kurulum'/>
 				<ScrollView>
 					<View
 						style={style.option}>

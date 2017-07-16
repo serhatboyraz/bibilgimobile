@@ -4,7 +4,10 @@ import {
 
 class InfoService {
 	async setNowInfo(info) {
-		return await AsyncStorage.setItem('now-info', info);
+		var str = typeof info === 'object' ? JSON.stringify(info) : null;
+		if (str !== null)
+			return await AsyncStorage.setItem('now-info', str);
+		return null;
 	}
 }
 

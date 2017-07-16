@@ -2,9 +2,7 @@ import PushNotification from 'react-native-push-notification';
 
 import Config from '@bibilgi/config';
 
-import {
-	WebService
-} from '@bibilgi/providers';
+import { WebService } from '@bibilgi/providers';
 
 class NotificationService {
 

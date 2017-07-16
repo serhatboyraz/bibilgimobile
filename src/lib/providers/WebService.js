@@ -84,6 +84,38 @@ class WebService {
 			return res;
 		});
 	}
+
+	/*
+	 * kullanıcıya gelen en son bilgirimi getirir
+	*/
+	async getLastInfo() {
+		var token = NotificationService.token || 'WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB';
+		return await send('Device', 'getLastInfo', {
+			deviceId: token
+		})
+		.then(res => {
+			if (typeof res === 'object') {
+				if (res.RESULT === true && res.DATA !== undefined) {
+					return res.DATA.info;
+				}
+			}
+		});
+	}
+
+	/*
+	 * bir bilgiyi favorilere eklemek için kullanılır
+	*/
+	async setFav(infoId, fav) {
+		var token = NotificationService.token || 'WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB-WEB';
+		return await send('Device', 'setFav', {
+			deviceId: token,
+			infoid: infoId,
+			type: fav ? 'X': ''
+		})
+		.then(res => {
+			return res;
+		});
+	}
 }
 
 module.exports = new WebService();

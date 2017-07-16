@@ -4,9 +4,7 @@ import {
 	ActivityIndicator
 } from 'react-native';
 
-import {
-	Actions
-} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 
 import style from '@bibilgi/style/start';
 
@@ -45,10 +43,10 @@ export default class Start extends Component {
 		isLogin().then(res => {
 			if (res)
 				// is logged
-				Actions.Main({type: 'reset'})
+				Actions.Main({type: 'reset'});
 			else
 				// not login
-				Actions.Setup({type: 'reset'})
+				Actions.Setup({type: 'reset'});
 		})
 	}
 
