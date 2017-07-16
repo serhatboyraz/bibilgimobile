@@ -8,6 +8,7 @@ import {
 	Image,
 	ScrollView,
 	ActivityIndicator,
+	Share,
 } from 'react-native';
 
 import {
@@ -38,11 +39,14 @@ export default class MainTab extends Component {
 	componentWillMount() {
 		var self = this;
 		WebService.getLastInfo().then(res => {
+			if (res === undefined)
+				return;
 			self.setState({
-				infoId: res.id,
-				info: res.content,
-				isAddedFav: res.favcount !== "0",
-				loading: false
+				infoId: res.info.id,
+				info: res.info.content,
+				isAddedFav: res.info.favcount !== "0",
+				loading: false,
+				categories: res.categories.map(x => x.title).join()
 			});
 			InfoService.setNowInfo(res);
 		});
@@ -54,6 +58,17 @@ export default class MainTab extends Component {
 		}, () => {
 			WebService.setFav(this.state.infoId, this.state.isAddedFav);
 		});
+	}
+
+	shareInfo() {
+		if (this.state.info !== null) {
+			var extText = ' BiBilgi uygulamasından paylaşıldı daha fazla bilgi için: https://play.google.com/store/apps/details?id=com.kodofisi.bibilgi';
+			Share.share({
+				message: this.state.info + extText,
+				url: 'http://bibilgi.kodofisi.com',
+				title: 'BiBilgi',
+			});
+		}
 	}
 
 	render() {
@@ -101,7 +116,8 @@ export default class MainTab extends Component {
 							</TouchableOpacity>
 
 							<TouchableOpacity
-								style={[style.button, { backgroundColor: '#fff' }]}>
+								style={[style.button, { backgroundColor: '#fff' }]}
+								onPress={this.shareInfo.bind(this)}>
 								<Text>Paylaş</Text>
 							</TouchableOpacity>
 						</View>

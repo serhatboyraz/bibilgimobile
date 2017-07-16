@@ -95,10 +95,14 @@ class WebService {
 		})
 		.then(res => {
 			if (typeof res === 'object') {
-				if (res.RESULT === true && res.DATA !== undefined) {
-					return res.DATA.info;
+				if (res.RESULT === true && res.DATA !== undefined && res.DATA.info !== undefined) {
+					return {
+						info: res.DATA.info,
+						categories: res.DATA.categories,
+					};
 				}
 			}
+			return;
 		});
 	}
 
