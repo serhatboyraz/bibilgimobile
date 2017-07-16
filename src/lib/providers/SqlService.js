@@ -26,13 +26,13 @@ class SqlService {
 							for (var i = 0; i < res.rows.length; i++)
 								list.push(res.rows.item(i));
 							resolve(list);
-						});
+						}, reject);
 						break;
 					case "object":
 						tx.executeSql(sql, value, (tx, res) => {
 							res = res;
 							resolve(res.rows.item(0));
-						});
+						}, reject);
 						break;
 					default:
 						tx.executeSql(sql, value, (tx, res) => {
@@ -41,7 +41,7 @@ class SqlService {
 							for (var i = 0; i < res.rows.length; i++)
 								list.push(res.rows.item(i));
 							resolve(list);
-						});
+						}, reject);
 						break;
 				}
 			})

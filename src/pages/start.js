@@ -32,7 +32,8 @@ export default class Start extends Component {
 	}
 
 	async loadStorage() {
-		SqlService.query('CREATE TABLE IF NOT EXISTS infos (id TEXT, title TEXT, content TEXT, image TEXT, username TEXT, usermail TEXT, userimage TEXT, categories TEXT)')
+		SqlService.query('CREATE TABLE IF NOT EXISTS infos (id TEXT, title TEXT, content TEXT, image TEXT, username TEXT, usermail TEXT, userimage TEXT, categories TEXT, isFav TEXT, UNIQUE(id))')
+		SqlService.query('CREATE TABLE IF NOT EXISTS categories (id TEXT, avatar TEXT, title TEXT, date TEXT, UNIQUE(id))')
 	}
 
 	async loadPushToken() {
