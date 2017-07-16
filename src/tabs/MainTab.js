@@ -59,6 +59,7 @@ export default class MainTab extends Component {
 			isAddedFav: !this.state.isAddedFav
 		}, () => {
 			WebService.setFav(this.state.infoId, this.state.isAddedFav);
+			InfoService.setFav(this.state.infoId, this.state.isAddedFav);
 		});
 	}
 

@@ -52,5 +52,15 @@ module.exports = StyleSheet.create({
 	favButtonText: {
 		color: '#fff',
 		marginLeft: 5
+	},
+
+	// fav tab
+	favListItem: {
+		borderBottomWidth: 1,
+		borderColor: '#ccc'
+	},
+	favListText: {
+		fontSize: 15,
+		color: '#333'
 	}
 });
