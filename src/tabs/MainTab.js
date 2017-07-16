@@ -19,6 +19,8 @@ import {
 	InfoService
 } from '@bibilgi/services';
 
+import { Actions } from 'react-native-router-flux';
+
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import style from '@bibilgi/style/main';
@@ -85,6 +87,11 @@ export default class MainTab extends Component {
 					<ScrollView
 						style={style.container}>
 						<Text
+							onPress={() => {
+								Actions.Detail({
+									infoId: this.state.infoId
+								});
+							}}
 							style={style.info}>
 							{this.state.info || ' '}
 						</Text>

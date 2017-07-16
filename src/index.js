@@ -16,6 +16,7 @@ import {
 	Start,
 	Setup,
 	Main,
+	Detail,
 } from '@bibilgi/pages';
 
 export default class BiBilgi extends Component {
@@ -26,6 +27,7 @@ export default class BiBilgi extends Component {
 					<Scene key="Start" component={Start} title="Start" hideNavBar={true}/>
 					<Scene key="Main" component={Main} title="Bi Bilgi" hideNavBar={true}/>
 					<Scene key="Setup" component={Setup} title="Kurulum" hideNavBar={true}/>
+					<Scene key="Detail" component={Detail} title="Kurulum" hideNavBar={true}/>
 				</Scene>
 			</Router>
 		);
