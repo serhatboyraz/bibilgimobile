@@ -1,5 +1,5 @@
 # BiBilgi Mobile
-BiBilgi uygulamasının açık kaynak deposu. Uygulama hakkında bilgi için [http://dotnetlife.com/bibilgi-app/]
+BiBilgi uygulamasının açık kaynak deposu. Uygulama hakkında bilgi için [bu adresten](http://dotnetlife.com/bibilgi-app/) yararlanabilirsiniz.
 
 # Uygulamanın klasör yapısı
 [Bu adresten](http://www.avarekodcu.com/konu/25/react-native-ile-ilginc-bilgiler-uygulamasi-bibilgi-acik-kaynak-projesi#projeyi-olusturma-ve-klasor-yapisi) klasör yapısı hakkında bilgi edinebilirsiniz.
